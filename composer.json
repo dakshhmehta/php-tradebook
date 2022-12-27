@@ -4,7 +4,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Dakshhmehta\\PhpTradebook\\": "src/"
+            "Dakshhmehta\\PhpTradebook\\": "src/",
+            "Dakshhmehta\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -14,5 +15,8 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "illuminate/collections": "^8.83"
+    }
 }
