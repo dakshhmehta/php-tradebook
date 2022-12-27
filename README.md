@@ -31,6 +31,6 @@ $tradebook = new TradeBook([
 ]);
 
 $trades = $tradebook->getTrades();
-$ledger = $tradebook->getTrades();
+$ledger = $tradebook->getLedger();
 echo $tradebook->getHolding();
 ```
