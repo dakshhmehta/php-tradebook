@@ -16,7 +16,9 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "phpunit/phpunit": "^9.5",
         "illuminate/collections": "~9"
+    },
+    "require": {
+        "phpunit/phpunit": "^9.5",
     }
 }
