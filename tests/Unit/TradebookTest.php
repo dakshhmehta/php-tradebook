@@ -200,4 +200,48 @@ class TradebookTest extends TestCase
 
         $this->assertEquals(-10, $tradebook->getHolding());
     }
+
+    public function test_it_can_generate_tradebook_for_multiple_symbols()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 4,
+                'symbol' => 'JB',
+                'date' => '2022-09-17',
+                'type' => 'sell',
+                'qty' => 10,
+            ]),
+            new Trade([
+                'id' => 3,
+                'symbol' => 'JB',
+                'date' => '2022-09-18',
+                'type' => 'buy',
+                'qty' => 10,
+            ]),
+            new Trade([
+                'id' => 1,
+                'symbol' => 'TCS',
+                'date' => '2022-10-17',
+                'type' => 'sell',
+                'qty' => 10,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'TCS',
+                'date' => '2022-10-18',
+                'type' => 'buy',
+                'qty' => 10,
+            ]),
+        ]);
+
+        $trades = $tradebook->getTrades();
+        $ledger = $tradebook->getLedger();
+
+        $this->assertCount(4, $trades);
+        
+        $this->assertEquals(3, $ledger[0]['buy_id']);
+        $this->assertEquals(4, $ledger[0]['sell_id']);
+        $this->assertEquals(2, $ledger[1]['buy_id']);
+        $this->assertEquals(1, $ledger[1]['sell_id']);
+    }
 }

@@ -92,7 +92,7 @@ class TradeBook
     protected function findNextSellTrade($start)
     {
         for ($i = $start + 1; $i < count($this->trades); $i++) {
-            if ($this->trades[$i]->type == 'sell' && $this->trades[$i]->qty > 0) {
+            if ($this->trades[$i]->symbol == $this->trades[$start]->symbol && $this->trades[$i]->type == 'sell' && $this->trades[$i]->qty > 0) {
                 return $i;
             }
         }
@@ -104,7 +104,7 @@ class TradeBook
     protected function findNextBuyTrade($start)
     {
         for ($i = $start + 1; $i < count($this->trades); $i++) {
-            if ($this->trades[$i]->type == 'buy' && $this->trades[$i]->qty > 0) {
+            if ($this->trades[$i]->symbol == $this->trades[$start]->symbol && $this->trades[$i]->type == 'buy' && $this->trades[$i]->qty > 0) {
                 return $i;
             }
         }
