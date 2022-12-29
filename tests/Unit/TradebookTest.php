@@ -238,10 +238,109 @@ class TradebookTest extends TestCase
         $ledger = $tradebook->getLedger();
 
         $this->assertCount(4, $trades);
-        
+
         $this->assertEquals(3, $ledger[0]['buy_id']);
         $this->assertEquals(4, $ledger[0]['sell_id']);
         $this->assertEquals(2, $ledger[1]['buy_id']);
         $this->assertEquals(1, $ledger[1]['sell_id']);
+    }
+
+    public function test_sample2_reliance_matches_properly()
+    {
+        $tradebook = new TradeBook([
+            /*
+            RateDate	SharesOwned	Price	Signals	Tickers
+2021-05-24 00:00:00.000	150.000000000000	1998.300000000000	BUY	RIL IN EQUITY
+2021-10-04 00:00:00.000	150.000000000000	2542.070000000000	SELL	RIL IN EQUITY
+2021-06-07 00:00:00.000	136.000000000000	2196.000000000000	BUY	RIL IN EQUITY
+2021-08-02 00:00:00.000	136.000000000000	2072.000000000000	SELL	RIL IN EQUITY
+2021-08-23 00:00:00.000	139.000000000000	2156.700000000000	BUY	RIL IN EQUITY
+2022-06-27 00:00:00.000	139.000000000000	2518.770000000000	SELL	RIL IN EQUITY
+*/
+
+            new Trade([
+                'id' => 11,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-06-27',
+                'type' => 'sell',
+                'qty' => 139,
+            ]),
+            new Trade([
+                'id' => 10,
+                'symbol' => 'RELIANCE',
+                'date' => '2021-08-23',
+                'type' => 'buy',
+                'qty' => 139,
+            ]),
+            new Trade([
+                'id' => 9,
+                'symbol' => 'RELIANCE',
+                'date' => '2021-08-02',
+                'type' => 'sell',
+                'qty' => 136,
+            ]),
+            new Trade([
+                'id' => 8,
+                'symbol' => 'RELIANCE',
+                'date' => '2021-06-07',
+                'type' => 'buy',
+                'qty' => 136,
+            ]),
+            new Trade([
+                'id' => 7,
+                'symbol' => 'RELIANCE',
+                'date' => '2021-10-04',
+                'type' => 'sell',
+                'qty' => 150,
+            ]),
+            new Trade([
+                'id' => 6,
+                'symbol' => 'RELIANCE',
+                'date' => '2021-05-24',
+                'type' => 'buy',
+                'qty' => 150,
+            ]),
+            new Trade([
+                'id' => 5,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-12-12',
+                'type' => 'sell',
+                'qty' => 166,
+            ]),
+            new Trade([
+                'id' => 4,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-10-09',
+                'type' => 'buy',
+                'qty' => 166,
+            ]),
+            new Trade([
+                'id' => 3,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-11-07',
+                'type' => 'buy',
+                'qty' => 77,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-09-05',
+                'type' => 'sell',
+                'qty' => 76,
+            ]),
+            new Trade([
+                'id' => 1,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-08-29',
+                'type' => 'buy',
+                'qty' => 76,
+            ]),
+        ]);
+
+        $trades = $tradebook->getTrades();
+        $ledger = $tradebook->getLedger();
+
+        $this->assertCount(6, $ledger);
+        $this->assertEquals(77, $tradebook->getHolding());
     }
 }
