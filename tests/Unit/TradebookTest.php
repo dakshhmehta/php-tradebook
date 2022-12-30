@@ -174,7 +174,7 @@ class TradebookTest extends TestCase
         $this->assertEquals(3, $ledger[1]['buy_id']);
         $this->assertEquals(2, $ledger[1]['sell_id']);
 
-        $this->assertEquals(28, $tradebook->getHolding());
+        $this->assertEquals(28, $tradebook->getHoldings()['JB']['qty']);
     }
 
     public function test_it_can_get_holding_for_short_sell()
@@ -198,7 +198,7 @@ class TradebookTest extends TestCase
 
         $trades = $tradebook->getTrades();
 
-        $this->assertEquals(-10, $tradebook->getHolding());
+        $this->assertEquals(-10, $tradebook->getHoldings()['JB']['qty']);
     }
 
     public function test_it_can_generate_tradebook_for_multiple_symbols()
@@ -248,16 +248,6 @@ class TradebookTest extends TestCase
     public function test_sample2_reliance_matches_properly()
     {
         $tradebook = new TradeBook([
-            /*
-            RateDate	SharesOwned	Price	Signals	Tickers
-2021-05-24 00:00:00.000	150.000000000000	1998.300000000000	BUY	RIL IN EQUITY
-2021-10-04 00:00:00.000	150.000000000000	2542.070000000000	SELL	RIL IN EQUITY
-2021-06-07 00:00:00.000	136.000000000000	2196.000000000000	BUY	RIL IN EQUITY
-2021-08-02 00:00:00.000	136.000000000000	2072.000000000000	SELL	RIL IN EQUITY
-2021-08-23 00:00:00.000	139.000000000000	2156.700000000000	BUY	RIL IN EQUITY
-2022-06-27 00:00:00.000	139.000000000000	2518.770000000000	SELL	RIL IN EQUITY
-*/
-
             new Trade([
                 'id' => 11,
                 'symbol' => 'RELIANCE',
@@ -341,6 +331,52 @@ class TradebookTest extends TestCase
         $ledger = $tradebook->getLedger();
 
         $this->assertCount(6, $ledger);
-        $this->assertEquals(77, $tradebook->getHolding());
+        $this->assertEquals(77, $tradebook->getHoldings()['RELIANCE']['qty']);
+    }
+
+    public function test_it_can_fetch_multiple_symbol_holdings()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-06-27',
+                'type' => 'buy',
+                'qty' => 50,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-08-23',
+                'type' => 'sell',
+                'qty' => 30,
+            ]),
+            new Trade([
+                'id' => 3,
+                'symbol' => 'TCS',
+                'date' => '2022-08-02',
+                'type' => 'buy',
+                'qty' => 10,
+            ]),
+            new Trade([
+                'id' => 4,
+                'symbol' => 'TCS',
+                'date' => '2022-09-05',
+                'type' => 'sell',
+                'qty' => 10,
+            ]),
+            new Trade([
+                'id' => 5,
+                'symbol' => 'DMART',
+                'date' => '2022-08-29',
+                'type' => 'buy',
+                'qty' => 5,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+        $this->assertEquals(5, $holdings['DMART']['qty']);
+        $this->assertEquals(0, $holdings['TCS']['qty']);
+        $this->assertEquals(20, $holdings['RELIANCE']['qty']);
     }
 }

@@ -122,16 +122,24 @@ class TradeBook
         return $this->ledger;
     }
 
-    public function getHolding()
+    public function getHoldings()
     {
-        $buyQty = collect($this->trades)->filter(function ($trade) {
-            return $trade->type == 'buy';
-        })->sum('qty');
+        $holdings = [];
+        $symbols = $this->trades->groupBy('symbol');
+        foreach($symbols as $symbol => $trades){
+            $buyQty = collect($trades)->filter(function ($trade) {
+                return $trade->type == 'buy';
+            })->sum('qty');
+    
+            $sellQty = collect($trades)->filter(function ($trade) {
+                return $trade->type == 'sell';
+            })->sum('qty');
+    
+            $holdings[$symbol] =[
+                'qty' => $buyQty - $sellQty,
+            ];
+        }
 
-        $sellQty = collect($this->trades)->filter(function ($trade) {
-            return $trade->type == 'sell';
-        })->sum('qty');
-
-        return $buyQty - $sellQty;
+        return $holdings;
     }
 }
