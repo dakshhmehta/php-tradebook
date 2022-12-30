@@ -10,6 +10,8 @@ class TradeBook
     protected $trades = [];
     protected $ledger = [];
 
+    protected $holdings = [];
+
     public function __construct($trades)
     {
         // foreach($trades as &$trade){
@@ -19,7 +21,32 @@ class TradeBook
         $this->trades = $trades;
 
         $this->sortTrades();
+        $this->prepareHoldings();
         $this->process();
+    }
+
+    public function prepareHoldings()
+    {
+        $symbols = $this->trades->groupBy('symbol');
+        foreach ($symbols as $symbol => $trades) {
+            $buyQty = collect($trades)->filter(function ($trade) {
+                return $trade->type == 'buy';
+            })->sum('qty');
+
+            $totalPurchaseValue = 0;
+            collect($trades)
+                ->filter(function ($trade) {
+                    return $trade->type == 'buy';
+                })
+                ->each(function ($trade) use (&$totalPurchaseValue) {
+                    $totalPurchaseValue += ($trade->qty * $trade->price);
+                });
+
+            $this->holdings[$symbol] = [
+                'price' => sprintf("%.4f", $totalPurchaseValue / $buyQty),
+                'qty' => $buyQty,
+            ];
+        }
     }
 
     protected function sortTrades()
@@ -124,22 +151,19 @@ class TradeBook
 
     public function getHoldings()
     {
-        $holdings = [];
         $symbols = $this->trades->groupBy('symbol');
-        foreach($symbols as $symbol => $trades){
+        foreach ($symbols as $symbol => $trades) {
             $buyQty = collect($trades)->filter(function ($trade) {
                 return $trade->type == 'buy';
             })->sum('qty');
-    
+
             $sellQty = collect($trades)->filter(function ($trade) {
                 return $trade->type == 'sell';
             })->sum('qty');
-    
-            $holdings[$symbol] =[
-                'qty' => $buyQty - $sellQty,
-            ];
+
+            $this->holdings[$symbol]['qty'] = $buyQty - $sellQty;
         }
 
-        return $holdings;
+        return $this->holdings;
     }
 }

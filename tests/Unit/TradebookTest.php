@@ -379,4 +379,39 @@ class TradebookTest extends TestCase
         $this->assertEquals(0, $holdings['TCS']['qty']);
         $this->assertEquals(20, $holdings['RELIANCE']['qty']);
     }
+
+    public function test_it_can_calculate_avg_price_purchase()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-06-27',
+                'type' => 'buy',
+                'qty' => 10,
+                'price' => 1000,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-08-23',
+                'type' => 'buy',
+                'qty' => 5,
+                'price' => 1200,
+            ]),
+            new Trade([
+                'id' => 3,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-08-30',
+                'type' => 'sell',
+                'qty' => 10,
+                'price' => 1500,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+
+        $this->assertEquals(5, $holdings['RELIANCE']['qty']);
+        $this->assertEquals(1066.6667, $holdings['RELIANCE']['price']);
+    }
 }
