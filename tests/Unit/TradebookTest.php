@@ -21,6 +21,7 @@ class TradebookTest extends TestCase
                 'symbol' => 'TCS',
                 'date' => '2022-12-10',
                 'qty' => 10,
+                'price' => 1,
                 'type' => 'buy',
             ]),
             new Trade([
@@ -28,6 +29,8 @@ class TradebookTest extends TestCase
                 'symbol' => 'TCS',
                 'date' => '2022-12-11',
                 'qty' => 10,
+                'price' => 1,
+
                 'type' => 'buy',
             ]),
             new Trade([
@@ -35,6 +38,8 @@ class TradebookTest extends TestCase
                 'symbol' => 'TCS',
                 'date' => '2022-12-12',
                 'qty' => 5,
+                'price' => 1,
+
                 'type' => 'sell',
             ]),
             new Trade([
@@ -42,6 +47,8 @@ class TradebookTest extends TestCase
                 'symbol' => 'TCS',
                 'date' => '2022-12-24',
                 'qty' => 10,
+                'price' => 1,
+
                 'type' => 'sell',
             ]),
         ]);
@@ -58,6 +65,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-12-10',
                 'qty' => 10,
                 'type' => 'buy',
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 2,
@@ -65,6 +73,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-12-11',
                 'qty' => 10,
                 'type' => 'buy',
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 4,
@@ -72,6 +81,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-12-24',
                 'qty' => 10,
                 'type' => 'sell',
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 3,
@@ -79,6 +89,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-12-12',
                 'qty' => 5,
                 'type' => 'sell',
+                'price' => 1,
             ]),
         ]);
         $ledger = $tradebook->getLedger();
@@ -100,6 +111,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-26',
                 'qty' => 5,
                 'type' => 'buy',
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 1,
@@ -107,6 +119,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-24',
                 'qty' => 10,
                 'type' => 'buy',
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 3,
@@ -114,6 +127,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-19',
                 'qty' => 5,
                 'type' => 'sell',
+                'price' => 1,
             ]),
         ]);
 
@@ -132,6 +146,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-24',
                 'type' => 'buy',
                 'qty' => 28,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 2,
@@ -139,6 +154,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-26',
                 'type' => 'sell',
                 'qty' => 27,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 3,
@@ -146,6 +162,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-19',
                 'type' => 'buy',
                 'qty' => 27,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 4,
@@ -153,6 +170,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-12',
                 'type' => 'sell',
                 'qty' => 12,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 5,
@@ -160,6 +178,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-08-15',
                 'type' => 'buy',
                 'qty' => 12,
+                'price' => 1,
             ]),
         ]);
 
@@ -210,6 +229,8 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-17',
                 'type' => 'sell',
                 'qty' => 10,
+                'price' => 1,
+
             ]),
             new Trade([
                 'id' => 3,
@@ -217,6 +238,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-18',
                 'type' => 'buy',
                 'qty' => 10,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 1,
@@ -224,6 +246,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-17',
                 'type' => 'sell',
                 'qty' => 10,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 2,
@@ -231,6 +254,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-18',
                 'type' => 'buy',
                 'qty' => 10,
+                'price' => 1,
             ]),
         ]);
 
@@ -254,6 +278,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-06-27',
                 'type' => 'sell',
                 'qty' => 139,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 10,
@@ -261,6 +286,7 @@ class TradebookTest extends TestCase
                 'date' => '2021-08-23',
                 'type' => 'buy',
                 'qty' => 139,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 9,
@@ -268,6 +294,7 @@ class TradebookTest extends TestCase
                 'date' => '2021-08-02',
                 'type' => 'sell',
                 'qty' => 136,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 8,
@@ -275,6 +302,7 @@ class TradebookTest extends TestCase
                 'date' => '2021-06-07',
                 'type' => 'buy',
                 'qty' => 136,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 7,
@@ -282,6 +310,7 @@ class TradebookTest extends TestCase
                 'date' => '2021-10-04',
                 'type' => 'sell',
                 'qty' => 150,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 6,
@@ -289,6 +318,7 @@ class TradebookTest extends TestCase
                 'date' => '2021-05-24',
                 'type' => 'buy',
                 'qty' => 150,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 5,
@@ -296,6 +326,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-12-12',
                 'type' => 'sell',
                 'qty' => 166,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 4,
@@ -303,6 +334,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-09',
                 'type' => 'buy',
                 'qty' => 166,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 3,
@@ -310,6 +342,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-11-07',
                 'type' => 'buy',
                 'qty' => 77,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 2,
@@ -317,6 +350,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-05',
                 'type' => 'sell',
                 'qty' => 76,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 1,
@@ -324,6 +358,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-08-29',
                 'type' => 'buy',
                 'qty' => 76,
+                'price' => 1,
             ]),
         ]);
 
@@ -343,6 +378,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-06-27',
                 'type' => 'buy',
                 'qty' => 50,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 2,
@@ -350,6 +386,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-08-23',
                 'type' => 'sell',
                 'qty' => 30,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 3,
@@ -357,6 +394,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-08-02',
                 'type' => 'buy',
                 'qty' => 10,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 4,
@@ -364,6 +402,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-05',
                 'type' => 'sell',
                 'qty' => 10,
+                'price' => 1,
             ]),
             new Trade([
                 'id' => 5,
@@ -371,6 +410,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-08-29',
                 'type' => 'buy',
                 'qty' => 5,
+                'price' => 1,
             ]),
         ]);
 
@@ -413,5 +453,40 @@ class TradebookTest extends TestCase
 
         $this->assertEquals(5, $holdings['RELIANCE']['qty']);
         $this->assertEquals(1066.6667, $holdings['RELIANCE']['price']);
+    }
+
+    public function test_it_can_calculate_avg_price_purchase_between_sales_CCRI_sample()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'CCRI',
+                'date' => '2022-06-13',
+                'type' => 'buy',
+                'qty' => 156,
+                'price' => 638.42,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'CCRI',
+                'date' => '2022-06-20',
+                'type' => 'sell',
+                'qty' => 156,
+                'price' => 608.93,
+            ]),
+            new Trade([
+                'id' => 3,
+                'symbol' => 'CCRI',
+                'date' => '2022-07-18',
+                'type' => 'buy',
+                'qty' => 149,
+                'price' => 670.35,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+
+        $this->assertEquals(149, $holdings['CCRI']['qty']);
+        $this->assertEquals(670.35, $holdings['CCRI']['price']);
     }
 }
