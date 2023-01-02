@@ -159,6 +159,27 @@ class TradeBook
 
     public function getHoldings()
     {
+        foreach ($this->trades as &$trade) {
+            $trade->purchase = $trade->qty * $trade->price;
+        }
+
+        $symbols = collect($this->trades)->groupBy('symbol');
+
+        foreach ($symbols as $symbol => $trades) {
+            $qty = $trades->sum('qty');
+            if ($qty == 0) {
+                $this->holdings[$symbol] = [
+                    'qty' => $qty,
+                    'price' => 0,
+                ];
+            } else {
+                $this->holdings[$symbol] = [
+                    'qty' => $qty,
+                    'price' => $trades->sum('purchase') / $qty,
+                ];
+            }
+        }
+
         return $this->holdings;
     }
 }
