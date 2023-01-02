@@ -490,4 +490,31 @@ class TradebookTest extends TestCase
         $this->assertEquals(149, $holdings['CCRI']['qty']);
         $this->assertEquals(670.35, $holdings['CCRI']['price']);
     }
+
+    public function test_it_can_calculate_avg_price_for_short_holdings()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'CCRI',
+                'date' => '2022-06-13',
+                'type' => 'sell',
+                'qty' => 100,
+                'price' => 100,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'CCRI',
+                'date' => '2022-06-20',
+                'type' => 'buy',
+                'qty' => 100,
+                'price' => 90,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+
+        $this->assertEquals(0, $holdings['CCRI']['qty']);
+        $this->assertEquals(0, $holdings['CCRI']['price']);
+    }
 }

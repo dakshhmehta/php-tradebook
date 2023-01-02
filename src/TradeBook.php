@@ -27,15 +27,15 @@ class TradeBook
 
     public function prepareHoldings()
     {
-        foreach($this->trades as &$trade){
-            if(! isset($this->holdings[$trade->symbol])){
+        foreach ($this->trades as &$trade) {
+            if (!isset($this->holdings[$trade->symbol])) {
                 $this->holdings[$trade->symbol] = [
                     'price' => 0,
                     'qty' => 0,
                 ];
             }
 
-            if($trade->type == 'buy'){
+            if ($trade->type == 'buy') {
                 // 1000 * 10 = 10000
                 $purchaseValue = $trade->price * $trade->original_qty;
                 // 10000 + 0
@@ -47,12 +47,10 @@ class TradeBook
                 try {
                     $avgPrice = $totalPurchaseValue / $this->holdings[$trade->symbol]['qty'];
                     $this->holdings[$trade->symbol]['price'] = sprintf("%.4f", $avgPrice);
-                }
-                catch(\Exception $e){
+                } catch (\Exception $e) {
                     // Short covering happened, so no calculation to make
                 }
-            }
-            else {
+            } else {
                 $this->holdings[$trade->symbol]['qty'] -= $trade->original_qty;
             }
         }
