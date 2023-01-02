@@ -22,41 +22,39 @@ class TradeBook
 
         $this->sortTrades();
         $this->process();
+        $this->prepareHoldings();
     }
 
-    public function prepareHoldings($index)
+    public function prepareHoldings()
     {
-        $symbols = (clone $this->trades)->splice(0, $index + 1)->groupBy('symbol');
-        foreach ($symbols as $symbol => $trades) {
-            $leftQty = 0;
-            $totalPurchaseValue = 0;
-            $_trades = collect($trades)
-                ->filter(function ($trade) {
-                    return $trade->type == 'buy' && $trade->qty > 0;
-                })
-                ->each(function (&$trade) use (&$totalPurchaseValue, &$leftQty) {
-                    $totalPurchaseValue += ($trade->original_qty * $trade->price);
-                    $leftQty += $trade->original_qty;
-                });
+        foreach($this->trades as &$trade){
+            if(! isset($this->holdings[$trade->symbol])){
+                $this->holdings[$trade->symbol] = [
+                    'price' => 0,
+                    'qty' => 0,
+                ];
+            }
 
+            if($trade->type == 'buy'){
+                // 1000 * 10 = 10000
+                $purchaseValue = $trade->price * $trade->original_qty;
+                // 10000 + 0
+                $totalPurchaseValue = $purchaseValue + ($this->holdings[$trade->symbol]['price'] * $this->holdings[$trade->symbol]['qty']);
 
-            $lastTrade = $trades->filter(function ($trade) {
-                return $trade->type == 'buy';
-            })->last();
+                $this->holdings[$trade->symbol]['qty'] += $trade->original_qty;
 
-            // TODO: Short calls holding also needs to be fetched
-            if($leftQty == 0){
-                $avgPrice = 0;
+                // 10000/10 = 1000
+                try {
+                    $avgPrice = $totalPurchaseValue / $this->holdings[$trade->symbol]['qty'];
+                    $this->holdings[$trade->symbol]['price'] = sprintf("%.4f", $avgPrice);
+                }
+                catch(\Exception $e){
+                    // Short covering happened, so no calculation to make
+                }
             }
             else {
-                $avgPrice = sprintf("%.4f", $totalPurchaseValue / $leftQty);
-                $lastTrade->avg_price = $avgPrice;
+                $this->holdings[$trade->symbol]['qty'] -= $trade->original_qty;
             }
-
-            $this->holdings[$symbol] = [
-                'price' => $avgPrice,
-                'qty' => $leftQty,
-            ];
         }
     }
 
@@ -75,8 +73,6 @@ class TradeBook
             $previousTradeId = null;
 
             do {
-                $this->prepareHoldings($i);
-
                 $nextTrade = null;
                 if ($trade->type == 'buy') {
                     if ($previousTradeId == null) {
@@ -165,35 +161,6 @@ class TradeBook
 
     public function getHoldings()
     {
-        $symbols = $this->trades->groupBy('symbol');
-        foreach ($symbols as $symbol => $trades) {
-            $buyQty = collect($trades)->filter(function ($trade) {
-                return $trade->type == 'buy';
-            })->sum('qty');
-
-            $sellQty = collect($trades)->filter(function ($trade) {
-                return $trade->type == 'sell';
-            })->sum('qty');
-            
-            $totalPurchaseValue = 0;
-            $totalQty = 0;
-            $_trades = $trades->filter(function ($t) {
-                return ($t->type == 'buy' && $t->qty > 0);
-            })->each(function ($t) use (&$totalPurchaseValue, &$totalQty) {
-                $totalPurchaseValue += ($t->qty * $t->avg_price);
-                $totalQty += $t->qty;
-            });
-            
-            $this->holdings[$symbol]['qty'] = $buyQty - $sellQty;
-            
-            if($buyQty - $sellQty <= 0){
-                $this->holdings[$symbol]['price'] = 0;
-            }
-            else {
-                $this->holdings[$symbol]['price'] = sprintf("%.4f", $totalPurchaseValue / $totalQty);
-            }
-        }
-
         return $this->holdings;
     }
 }

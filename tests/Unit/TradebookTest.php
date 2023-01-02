@@ -111,7 +111,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-26',
                 'qty' => 5,
                 'type' => 'buy',
-                'price' => 1,
+                'price' => 100,
             ]),
             new Trade([
                 'id' => 1,
@@ -119,7 +119,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-10-24',
                 'qty' => 10,
                 'type' => 'buy',
-                'price' => 1,
+                'price' => 100,
             ]),
             new Trade([
                 'id' => 3,
@@ -205,6 +205,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-17',
                 'type' => 'sell',
                 'qty' => 20,
+                'price' => 100,
             ]),
             new Trade([
                 'id' => 4,
@@ -212,6 +213,7 @@ class TradebookTest extends TestCase
                 'date' => '2022-09-18',
                 'type' => 'buy',
                 'qty' => 10,
+                'price' => 100,
             ]),
         ]);
 
@@ -230,7 +232,6 @@ class TradebookTest extends TestCase
                 'type' => 'sell',
                 'qty' => 10,
                 'price' => 1,
-
             ]),
             new Trade([
                 'id' => 3,
