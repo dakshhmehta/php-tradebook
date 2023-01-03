@@ -585,4 +585,30 @@ class TradebookTest extends TestCase
         $this->assertEquals(30, $holdings['RELIANCE']['qty']);
         $this->assertEquals(1000, $holdings['RELIANCE']['price']);
     }
+
+    public function test_it_has_no_key_if_no_holdings()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-12-13',
+                'type' => 'buy',
+                'qty' => 5,
+                'price' => 1000,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'RELIANCE',
+                'date' => '2022-12-15',
+                'type' => 'sell',
+                'qty' => 5,
+                'price' => 1100,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+
+        $this->assertTrue(!isset($holdings['RELIANCE']));
+    }
 }

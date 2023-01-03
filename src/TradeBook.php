@@ -178,6 +178,10 @@ class TradeBook
                     'price' => $trades->sum('purchase') / $qty,
                 ];
             }
+
+            if ($this->holdings[$symbol]['qty'] == 0) {
+                unset($this->holdings[$symbol]);
+            }
         }
 
         return $this->holdings;
