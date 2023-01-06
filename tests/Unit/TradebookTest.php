@@ -591,9 +591,9 @@ class TradebookTest extends TestCase
         $tradebook = new TradeBook([
             new Trade([
                 'id' => 1,
-                'symbol' => 'RELIANCE',
+                'symbol' => 'reliance',
                 'date' => '2022-12-13',
-                'type' => 'buy',
+                'type' => 'Buy',
                 'qty' => 5,
                 'price' => 1000,
             ]),
