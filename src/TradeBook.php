@@ -48,7 +48,7 @@ class TradeBook
                 try {
                     $avgPrice = $totalPurchaseValue / $this->holdings[$trade->symbol]['qty'];
                     $this->holdings[$trade->symbol]['price'] = sprintf("%.4f", $avgPrice);
-                } catch (\Exception $e) {
+                } catch (\Error $e) {
                     // Short covering happened, so no calculation to make
                 }
             } else {
