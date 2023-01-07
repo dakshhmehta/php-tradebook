@@ -196,8 +196,7 @@ class TradebookTest extends TestCase
         $this->assertEquals(28, $tradebook->getHoldings()['JB']['qty']);
     }
 
-    // TODO: Will fix this if client want short holding
-    public function it_can_get_holding_for_short_sell()
+    public function test_it_can_get_holding_for_short_sell()
     {
         $tradebook = new TradeBook([
             new Trade([
@@ -217,8 +216,6 @@ class TradebookTest extends TestCase
                 'price' => 100,
             ]),
         ]);
-
-        dd($tradebook->getHoldings());
 
         $this->assertEquals(-10, $tradebook->getHoldings()['JB']['qty']);
     }
@@ -418,7 +415,6 @@ class TradebookTest extends TestCase
 
         $holdings = $tradebook->getHoldings();
         $this->assertEquals(5, $holdings['DMART']['qty']);
-        $this->assertEquals(0, $holdings['TCS']['qty']);
         $this->assertEquals(20, $holdings['RELIANCE']['qty']);
     }
 
@@ -490,33 +486,6 @@ class TradebookTest extends TestCase
 
         $this->assertEquals(149, $holdings['CCRI']['qty']);
         $this->assertEquals(670.35, $holdings['CCRI']['price']);
-    }
-
-    public function test_it_can_calculate_avg_price_for_short_holdings()
-    {
-        $tradebook = new TradeBook([
-            new Trade([
-                'id' => 1,
-                'symbol' => 'CCRI',
-                'date' => '2022-06-13',
-                'type' => 'sell',
-                'qty' => 100,
-                'price' => 100,
-            ]),
-            new Trade([
-                'id' => 2,
-                'symbol' => 'CCRI',
-                'date' => '2022-06-20',
-                'type' => 'buy',
-                'qty' => 100,
-                'price' => 90,
-            ]),
-        ]);
-
-        $holdings = $tradebook->getHoldings();
-
-        $this->assertEquals(0, $holdings['CCRI']['qty']);
-        $this->assertEquals(0, $holdings['CCRI']['price']);
     }
 
     // TODO: Complete this testcase

@@ -48,7 +48,7 @@ class TradeBook
                 try {
                     $avgPrice = $totalPurchaseValue / $this->holdings[$trade->symbol]['qty'];
                     $this->holdings[$trade->symbol]['price'] = sprintf("%.4f", $avgPrice);
-                } catch (\Error $e) {
+                } catch (\Exception $e) {
                     // Short covering happened, so no calculation to make
                 }
             } else {
@@ -167,7 +167,14 @@ class TradeBook
         $symbols = collect($this->trades)->groupBy('symbol');
 
         foreach ($symbols as $symbol => $trades) {
-            $qty = $trades->sum('qty');
+            $bQty = $trades->filter(function($t){
+                return $t->type == 'buy';
+            })->sum('qty');
+            $sQty = $trades->filter(function($t){
+                return $t->type == 'sell';
+            })->sum('qty');
+
+            $qty = $bQty - $sQty;
             if ($qty == 0) {
                 $this->holdings[$symbol] = [
                     'qty' => $qty,
