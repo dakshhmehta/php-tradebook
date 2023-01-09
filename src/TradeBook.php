@@ -27,7 +27,7 @@ class TradeBook
 
         $this->sortTrades();
         $this->process();
-        $this->prepareHoldings();
+        // $this->prepareHoldings();
     }
 
     public function prepareHoldings()
