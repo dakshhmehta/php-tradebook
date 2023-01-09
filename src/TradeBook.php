@@ -165,7 +165,8 @@ class TradeBook
     public function getHoldings()
     {
         foreach ($this->trades as &$trade) {
-            $trade->purchase = ($trade->qty * $trade->exchange_rate) * $trade->price;
+            $trade->purchase = $trade->qty * $trade->price;
+            $trade->purchase_secondary_currency = $trade->qty * ($trade->exchange_rate * $trade->price);
         }
 
         $symbols = collect($this->trades)->groupBy('symbol');
@@ -188,6 +189,7 @@ class TradeBook
                 $this->holdings[$symbol] = [
                     'qty' => $qty,
                     'price' => $trades->sum('purchase') / $qty,
+                    'secondary_price' => $trades->sum('purchase_secondary_currency') / $qty,
                 ];
             }
 

@@ -608,6 +608,7 @@ class TradebookTest extends TestCase
         $holdings = $tradebook->getHoldings();
 
         $this->assertEquals(20, $holdings['TCS']['qty']);
-        $this->assertEquals(85, $holdings['TCS']['price']);
+        $this->assertEquals(1, $holdings['TCS']['price']);
+        $this->assertEquals(85, $holdings['TCS']['secondary_price']);
     }
 }
