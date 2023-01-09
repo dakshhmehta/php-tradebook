@@ -17,6 +17,10 @@ class TradeBook
         foreach ($trades as &$trade) {
             $trade->original_qty = $trade->qty;
             $trade->type = strtolower($trade->type);
+
+            if(! isset($trade->exchange_rate)){
+                $trade->exchange_rate = 1;
+            }
         }
 
         $this->trades = $trades;
@@ -161,7 +165,7 @@ class TradeBook
     public function getHoldings()
     {
         foreach ($this->trades as &$trade) {
-            $trade->purchase = $trade->qty * $trade->price;
+            $trade->purchase = ($trade->qty * $trade->exchange_rate) * $trade->price;
         }
 
         $symbols = collect($this->trades)->groupBy('symbol');

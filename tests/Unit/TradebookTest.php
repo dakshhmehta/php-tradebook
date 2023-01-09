@@ -580,4 +580,34 @@ class TradebookTest extends TestCase
 
         $this->assertTrue(!isset($holdings['RELIANCE']));
     }
+
+    public function test_trades_can_happen_with_exchange_rate()
+    {
+        $tradebook = new TradeBook([
+            new Trade([
+                'id' => 1,
+                'symbol' => 'TCS',
+                'date' => '2022-12-10',
+                'qty' => 10,
+                'price' => 1,
+                'type' => 'buy',
+                'exchange_rate' => 80,
+            ]),
+            new Trade([
+                'id' => 2,
+                'symbol' => 'TCS',
+                'date' => '2022-12-11',
+                'qty' => 10,
+                'price' => 1,
+
+                'type' => 'buy',
+                'exchange_rate' => 90,
+            ]),
+        ]);
+
+        $holdings = $tradebook->getHoldings();
+
+        $this->assertEquals(20, $holdings['TCS']['qty']);
+        $this->assertEquals(85, $holdings['TCS']['price']);
+    }
 }
